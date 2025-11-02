@@ -31,4 +31,9 @@ public interface IUserRepository
     /// Обновление пользователя
     /// </summary>
     Task UpdateAsync(User user);
+    
+    /// <summary>
+    /// Удаление пользователя
+    /// </summary>
+    Task DeleteAsync(User user);
 }

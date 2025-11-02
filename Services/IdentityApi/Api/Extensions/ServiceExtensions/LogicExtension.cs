@@ -1,4 +1,10 @@
-﻿using Logic.Services.GetProfile;
+﻿using Logic.Services.AttachUserToTeam;
+using Logic.Services.AttachUserToTeam.Interfaces;
+using Logic.Services.DeleteUser;
+using Logic.Services.DeleteUser.Interfaces;
+using Logic.Services.DetachUserFromTeam;
+using Logic.Services.DetachUserFromTeam.Interfaces;
+using Logic.Services.GetProfile;
 using Logic.Services.GetProfile.Interfaces;
 using Logic.Services.GetSkillLevel;
 using Logic.Services.GetSkillLevel.Interfaces;
@@ -35,6 +41,9 @@ internal static class LogicExtension
         services.AddScoped<IUpdateProfileUseCase, UpdateProfileUseCase>();
         services.AddScoped<ISetSkillLevelUseCase, SetSkillLevelUseCase>();
         services.AddScoped<IGetSkillLevelUseCase, GetSkillLevelUseCase>();
+        services.AddScoped<IAttachUserToTeamUseCase, AttachUserToTeamUseCase>();
+        services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
+        services.AddScoped<IDetachUserFromTeamUseCase, DetachUserFromTeamUseCase>();
         
         return services;
     }

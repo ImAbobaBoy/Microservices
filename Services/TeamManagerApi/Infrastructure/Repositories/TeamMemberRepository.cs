@@ -49,4 +49,10 @@ public class TeamMemberRepository : ITeamMemberRepository
             await _context.SaveChangesAsync();
         }
     }
+    
+    /// <inheritdoc />
+    public async Task<TeamMember?> GetByUserIdAsync(Guid userId)
+    {
+        return await _context.TeamMembers.FirstOrDefaultAsync(m => m.UserId == userId);
+    }
 }

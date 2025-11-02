@@ -14,4 +14,6 @@ public interface ITeamMemberRepository
     Task RemoveAsync(Guid id);
     
     Task<IEnumerable<TeamMember>> GetByTeamIdAsync(Guid teamId);
+    
+    Task<TeamMember?> GetByUserIdAsync(Guid userId);
 }

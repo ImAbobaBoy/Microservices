@@ -16,12 +16,12 @@ public class RemoveMemberUseCase : IRemoveMemberUseCase
         _memberRepository = memberRepository;
     }
 
-    public async Task ExecuteAsync(Guid teamId, Guid memberId)
+    public async Task ExecuteAsync(Guid teamId, Guid userId)
     {
-        var member = await _memberRepository.GetByIdAsync(memberId);
+        var member = await _memberRepository.GetByUserIdAsync(userId);
         if (member != null && member.TeamId == teamId)
         {
-            await _memberRepository.RemoveAsync(memberId);
+            await _memberRepository.RemoveAsync(member.Id); 
         }
     }
 }
