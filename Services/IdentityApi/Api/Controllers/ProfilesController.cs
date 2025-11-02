@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using Api.Models;
 using Logic.Models;
+using Logic.Services.DeleteUser.Interfaces;
 using Logic.Services.GetProfile.Interfaces;
 using Logic.Services.GetSkillLevel.Interfaces;
 using Logic.Services.SetSkillLevel.Interfaces;
@@ -18,7 +19,8 @@ public class ProfilesController : ControllerBase
     private readonly IUpdateProfileUseCase _updateProfile;
     private readonly ISetSkillLevelUseCase _setSkillLevel;
     private readonly IGetSkillLevelUseCase _getSkillLevel;
-
+    private readonly IDeleteUserUseCase _deleteUser;
+    
     /// <summary>
     /// Конструктор
     /// </summary>
@@ -26,12 +28,14 @@ public class ProfilesController : ControllerBase
         IGetProfileUseCase getProfile,
         IUpdateProfileUseCase updateProfile,
         ISetSkillLevelUseCase setSkillLevel,
-        IGetSkillLevelUseCase getSkillLevel)
+        IGetSkillLevelUseCase getSkillLevel,
+        IDeleteUserUseCase deleteUser)
     {
         _getProfile = getProfile;
         _updateProfile = updateProfile;
         _setSkillLevel = setSkillLevel;
         _getSkillLevel = getSkillLevel;
+        _deleteUser = deleteUser;
     }
 
     /// <summary>
@@ -108,5 +112,15 @@ public class ProfilesController : ControllerBase
             throw new Exception("User not authenticated");
         }
         return Guid.Parse(userIdClaim);
+    }
+    
+    /// <summary>
+    /// Удаление пользователя по id (администратор)
+    /// </summary>
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        await _deleteUser.ExecuteAsync(id);
+        return NoContent();
     }
 }

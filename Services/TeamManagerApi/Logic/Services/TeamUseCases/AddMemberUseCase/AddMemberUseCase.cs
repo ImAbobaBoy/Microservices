@@ -41,6 +41,8 @@ public class AddMemberUseCase : IAddMemberUseCase
 
         member.TeamId = teamId;
         await _memberRepo.AddAsync(member);
+        
+        await NotifyAttachUserAsync(member.UserId, teamId);
     }
 
     /// <summary>
@@ -65,9 +67,36 @@ public class AddMemberUseCase : IAddMemberUseCase
             return false;
         }
     }
+    
+    /// <summary>
+    /// Отправляет запрос в ProfileService для привязки пользователя к команде.
+    /// </summary>
+    private async Task NotifyAttachUserAsync(Guid userId, Guid teamId)
+    {
+        var request = new HttpRequestData
+        {
+            Uri = new Uri($"http://localhost:31719/v1/teams/{teamId}/users/{userId}"),
+            Method = HttpMethod.Post,
+            ContentType = ContentType.ApplicationJson
+        };
+
+        var response = await _httpRequestService.SendRequestAsync<EmptyResponse>(request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException(
+                $"Failed to attach user {userId} to team {teamId} in ProfileService. " +
+                $"StatusCode: {response.StatusCode}");
+        }
+    }
 
     /// <summary>
     /// DTO для пользователя, получаемого из ProfileService.
     /// </summary>
     private record UserDto(Guid Id, string Username);
+
+    /// <summary>
+    /// Путая дто для ответа, заглушка
+    /// </summary>
+    private record EmptyResponse();
 }
