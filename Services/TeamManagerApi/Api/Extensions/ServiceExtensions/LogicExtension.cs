@@ -4,6 +4,8 @@ using Logic.Services.ResultUseCases.GetResultUseCase.Interfaces;
 using Logic.Services.ResultUseCases.GetResultUseCase;
 using Logic.Services.ResultUseCases.RemoveResultUseCase.Interfaces;
 using Logic.Services.ResultUseCases.RemoveResultUseCase;
+using Logic.Services.SemaphoreService;
+using Logic.Services.SemaphoreService.Interfaces;
 using Logic.Services.TeamUseCases.AddMemberUseCase.Interfaces;
 using Logic.Services.TeamUseCases.AddMemberUseCase;
 using Logic.Services.TeamUseCases.CreateTeamUseCase.Interfaces;
@@ -36,6 +38,8 @@ namespace API.Extensions
             services.AddScoped<IAddResultUseCase, AddResultUseCase>();
             services.AddScoped<IRemoveResultUseCase, RemoveResultUseCase>();
             services.AddScoped<IGetResultsUseCase, GetResultsUseCase>();
+            
+            services.AddScoped<ISemaphoreService, SemaphoreService>();
         }
     }
 }
